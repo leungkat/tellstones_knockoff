@@ -1,6 +1,9 @@
 import socket
 import sys
 
+client1 = ""
+client2 = ""
+
 if __name__ == "__main__":
 
 	try:
@@ -18,18 +21,27 @@ if __name__ == "__main__":
 		sock.bind((UDP_IP, UDP_PORT))
 		
 		print("server started on 127.0.0.1 at port "+ str(UDP_PORT))
-
-		#all threads are stored in this list
-		allthreads = list()
 		
-		#all users are stored in this list
-		allusers = list()
-		
+		#initializing two clients
+		data, addr = sock.recvfrom(1024) #receive from first client 
+		if data == "register".encode():
+			client1 = addr
+			sock.sendto("1".encode(), client1)
+			print("Client 1 has connected from " + addr[0] + ", " + str(addr[1]))
+			
+		data, addr = sock.recvfrom(1024) #receive from second client 
+		if data == "register".encode():
+			client2 = addr
+			sock.sendto("2".encode(), client2)
+			print("Client 2 has connected from " + addr[0] + ", " + str(addr[1]))
+			
 		while True:
-				data, addr = sock.recvfrom(1024) # (buffer size) 
-				t = threading.Thread(name = data.split()[0],target=threading_function, args = (data, addr, sock, allusers,))
-				allthreads.append((t, data, addr))
-				t.start()
-				
+			data, addr = sock.recvfrom(1024)
+			
+			if addr[1] == client1[1]:
+				sock.sendto(data, client2)
+			
+			else:
+				sock.sendto(data, client1)
 	except KeyboardInterrupt:
-		
+		sys.exit()
