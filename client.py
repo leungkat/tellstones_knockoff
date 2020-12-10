@@ -205,9 +205,11 @@ if __name__ == "__main__":
 						print("The stone at place " + str(choice) + " is " + line[choice-1][0] + "!")
 					
 				elif action == "6": #BOAST
-					SEND_ACTION = "BOAST"
+					
 					if numberHidden == 0:
 						print("No stones are hidden!")
+					else: 
+						SEND_ACTION = "BOAST"
 					
 				else:
 					print("Invalid input.")
@@ -231,13 +233,11 @@ if __name__ == "__main__":
 				if action == "PLACE":
 					choice = int(data[1])
 					choice = pool.pop(choice-1)
-					print(choice)
 					if len(line) == 0:
 						line.append(choice) 
 						print("Opponent has placed " + choice[0] + " on the line!")
 					else:
 						placement = data[2]
-						print(placement)
 						if placement == "1":
 							line.insert(0, choice)
 							print("Opponent has placed " + choice[0] + " on the left!")
@@ -288,7 +288,7 @@ if __name__ == "__main__":
 					
 					print("Opponent is boasting!")
 					choice = -1
-					while (choice != 1) or (choice != 2) or (choice != 3):
+					while (choice != 1) and (choice != 2) and (choice != 3):
 						choice = input("Would you like to: \n1. Believe them \n2. Challenge them \n3. Steal the boast")
 						choice = int(choice)
 						
@@ -296,7 +296,7 @@ if __name__ == "__main__":
 						OPP_POINTS = OPP_POINTS + 1
 						returnThis = "BELIEVE"
 					elif choice == 2:
-						returnThis = "CHALLENGE"
+						returnThis = "PROVE"
 					else:
 						win = True
 						i = 1
@@ -329,7 +329,7 @@ if __name__ == "__main__":
 				elif action == "BELIEVE":
 					print("Opponent believes your boast!")
 					MY_POINTS = MY_POINTS + 1
-				elif action == "CHALLENGE":
+				elif action == "PROVE":
 					returnAction = True
 					print("Opponent has challenged your boast!")
 					win = True
