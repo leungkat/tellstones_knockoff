@@ -40,8 +40,9 @@ if __name__ == "__main__":
 			
 			if addr[1] == client1[1]:
 				sock.sendto(data, client2)
-			
+				print("Client 1: " + data.decode("utf-8"))
 			else:
 				sock.sendto(data, client1)
+				print("Client 2: " + data.decode("utf-8"))
 	except KeyboardInterrupt:
 		sys.exit()
